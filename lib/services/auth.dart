@@ -1,25 +1,60 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:pebbles/models/user.dart';
 
 class AuthService {
 
-  static final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  // signin anon
-  Future < FirebaseUser > signInAnon() async {
+  // transform a firebase user into custom user
+  User _fireBaseUserToUser(FirebaseUser user) {
+    return user != null ? User(user.uid) : null;
+  }
+
+  // user stream
+  Stream < User > get userAuthState {
+    return _auth.onAuthStateChanged.map(_fireBaseUserToUser);
+  }
+
+  // sign in email & password
+  Future signInEmailAndPassword(String email, String password) async {
     try {
-      AuthResult result = await _auth.signInAnonymously();
-      FirebaseUser user = result.user;
-      return user;
+      print(email);
+      print(password);
+      AuthResult result = 
+          await _auth.signInWithEmailAndPassword(email: email, password: password);
+      return _fireBaseUserToUser(result.user);
     }
     catch(e) {
-      print('sign in failed \n ${e.toString}');
+      print('couldn\'t sign in');
+      print(e.toString());
       return null;
     }
   }
 
-  // TODO sing in email & password
+  // sign up email & password
+  Future signUpEmailAndPassword(String email, String password) async {
+    try {
+      AuthResult result =
+          await _auth.createUserWithEmailAndPassword(email: email, password: password);
+      return _fireBaseUserToUser(result.user);
+    }
+    catch(e) {
+      print('couldn\'t sign up');
+      print(e.toString());
+      return null;
+    }
+  }
 
-  // TODO sign up email & password
+  // signout
+  Future signOut() async {
+    try {
+      return await _auth.signOut();
+    }
+    catch(e) {
+      print('couldn\'t sign out');
+      print(e.toString());
+      return null;
+    }
+  }
 
-  // TODO signout
 }

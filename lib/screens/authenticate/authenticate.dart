@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pebbles/screens/authenticate/sign_in.dart';
+import 'package:pebbles/screens/authenticate/sign_up.dart';
 
 class Authenticate extends StatefulWidget {
   @override
@@ -7,8 +8,21 @@ class Authenticate extends StatefulWidget {
 }
 
 class _AuthenticateState extends State < Authenticate > {
+
+  bool _showSignIn = true;
+
+  void toggleView() {
+    setState(() => _showSignIn = !_showSignIn);
+  }
+
   @override
   Widget build(BuildContext context) {
-    return SignIn();
+
+    if (_showSignIn) {
+      return SignIn(toggleView: toggleView);
+    }
+    else {
+      return SignUp(toggleView: toggleView);
+    }
   }
 }
