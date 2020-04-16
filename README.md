@@ -54,5 +54,6 @@ Be smart before you work hard.
 * Ability to filter pebbles
 * as pebbles get more votes they will change their type (example: sand grain -> simple rock -> iron ore -> amethyst crystal -> diamond)
 * Ability to share pebbles
+* More customization for a pebble
 
 The backbone of the app is to be as simple as possible while having a great impact. 
