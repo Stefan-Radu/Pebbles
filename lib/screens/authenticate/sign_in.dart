@@ -69,7 +69,7 @@ class _SignInState extends State < SignIn > {
                 Row(
                   children: < Widget > [
                     FlatButton(
-                      child: Text('Sign up'),
+                      child: Text('Register'),
                       onPressed: () async {
                         widget.toggleView();
                       },
@@ -81,7 +81,7 @@ class _SignInState extends State < SignIn > {
                         if (_formKey.currentState.validate()) {
                           dynamic response = await authService.signInEmailAndPassword(email, password);
                           if (response == null) {
-                            setState(() => error = 'Invalid data');
+                            setState(() => error = 'Invalid credentials');
                           }
                         }
                       },

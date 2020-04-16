@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:pebbles/models/user.dart';
+import 'package:pebbles/services/database.dart';
 
 class AuthService {
 
@@ -7,7 +8,7 @@ class AuthService {
 
   // transform a firebase user into custom user
   User _fireBaseUserToUser(FirebaseUser user) {
-    return user != null ? User(user.uid) : null;
+    return user != null ? User(uid: user.uid) : null;
   }
 
   // user stream
@@ -18,8 +19,6 @@ class AuthService {
   // sign in email & password
   Future signInEmailAndPassword(String email, String password) async {
     try {
-      print(email);
-      print(password);
       AuthResult result = 
           await _auth.signInWithEmailAndPassword(email: email, password: password);
       return _fireBaseUserToUser(result.user);
@@ -32,10 +31,12 @@ class AuthService {
   }
 
   // sign up email & password
-  Future signUpEmailAndPassword(String email, String password) async {
+  Future signUpEmailAndPassword(String userName, String email, String password) async {
     try {
       AuthResult result =
           await _auth.createUserWithEmailAndPassword(email: email, password: password);
+
+      DatabaseService().createUserInstance(uid: result.user.uid, userName: userName, email: email);  
       return _fireBaseUserToUser(result.user);
     }
     catch(e) {
