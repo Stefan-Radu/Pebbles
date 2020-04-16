@@ -40,6 +40,9 @@ class _PebbleTileState extends State < PebbleTile > {
               },
             ),
           ),
+          Container(
+            child: Text(widget.pebble.content),
+          ),
         ],
       ),
     );
