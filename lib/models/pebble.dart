@@ -1,15 +1,22 @@
 class Pebble {
 
-  Pebble(this.uid, this.timeStamp, this.userUid, this.userName, {this.title = '', this.content = ''}) {
-    this.points = 0;
+  Pebble({this.uid, this.timeStamp, this.userName, this.title,
+    this.content, this.category, this.points = 0}) {
+
+    if (points == 0) {
+      imgPath = 'assets/coal.png';
+    }
+    else {
+      imgPath = 'assets/amethyst.png';
+    }
   }
 
   final String uid;
   final int timeStamp;
-  final String userUid;
-
+  final String userName;
   String title;
   String content;
-  String userName;
+  String category;
   int points;
+  String imgPath;
 }
